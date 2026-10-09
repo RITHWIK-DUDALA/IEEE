@@ -1,27 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { collection, query, where, getDocs } from "firebase/firestore";
 import { ArrowLeft, Image as ImageIcon } from "lucide-react";
-import { db } from "@/lib/firebase";
 import { Post } from "@/lib/types";
 
 export const dynamic = 'force-dynamic';
 
 async function getPostBySlug(slug: string): Promise<Post | null> {
-  try {
-    const q = query(collection(db, "posts"), where("slug", "==", slug), where("status", "==", "published"));
-    const querySnapshot = await getDocs(q);
-    
-    if (querySnapshot.empty) {
-      return null;
-    }
-    
-    const doc = querySnapshot.docs[0];
-    return { id: doc.id, ...doc.data() } as Post;
-  } catch (error) {
-    console.error("Error fetching post by slug:", error);
-    return null;
-  }
+  // Database removed for static landing page.
+  return null;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {

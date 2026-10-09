@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { Image as ImageIcon } from "lucide-react";
-import { db } from "@/lib/firebase";
 import { Post } from "@/lib/types";
 
 export const metadata = {
@@ -13,29 +11,8 @@ export const metadata = {
 export const dynamic = 'force-dynamic';
 
 async function getPublishedPosts(): Promise<Post[]> {
-  try {
-    const q = query(
-      collection(db, "posts"),
-      where("status", "==", "published"),
-      // If we want to order, we need a composite index in firestore
-      // orderBy("publishedAt", "desc") 
-    );
-    const querySnapshot = await getDocs(q);
-    const posts: Post[] = [];
-    querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data() } as Post);
-    });
-    
-    // Sort manually to avoid needing a composite index for simple setups
-    return posts.sort((a, b) => {
-      const timeA = a.publishedAt?.toMillis ? a.publishedAt.toMillis() : 0;
-      const timeB = b.publishedAt?.toMillis ? b.publishedAt.toMillis() : 0;
-      return timeB - timeA;
-    });
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    return [];
-  }
+  // Database removed for static landing page.
+  return [];
 }
 
 export default async function NewsPage() {
