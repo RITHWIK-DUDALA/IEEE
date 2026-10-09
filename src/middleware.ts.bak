@@ -1,0 +1,63 @@
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
+
+// Initialize Redis only if URLs are present to prevent crashes if missing
+const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
+const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+let ratelimit: Ratelimit | undefined;
+
+if (redisUrl && redisToken) {
+  ratelimit = new Ratelimit({
+    redis: new Redis({
+      url: redisUrl,
+      token: redisToken,
+    }),
+    // Configured for 10 requests per 10 seconds per IP
+    limiter: Ratelimit.slidingWindow(10, '10 s'),
+  });
+}
+
+export async function middleware(request: NextRequest) {
+  // If ratelimit isn't configured, skip rate limiting
+  if (!ratelimit) {
+    return NextResponse.next();
+  }
+
+  const ip = request.ip ?? '127.0.0.1';
+  const { success, pending, limit, reset, remaining } = await ratelimit.limit(ip);
+
+  // Return 429 Too Many Requests if limited
+  if (!success) {
+    return new NextResponse('Too Many Requests. Please try again later.', {
+      status: 429,
+      headers: {
+        'X-RateLimit-Limit': limit.toString(),
+        'X-RateLimit-Remaining': remaining.toString(),
+        'X-RateLimit-Reset': reset.toString(),
+      },
+    });
+  }
+
+  // Set ratelimit headers on successful requests
+  const res = NextResponse.next();
+  res.headers.set('X-RateLimit-Limit', limit.toString());
+  res.headers.set('X-RateLimit-Remaining', remaining.toString());
+  res.headers.set('X-RateLimit-Reset', reset.toString());
+  return res;
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes, if you have specific ones you want to limit differently)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+  ],
+};

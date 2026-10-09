@@ -1,0 +1,194 @@
+
+
+
+
+
+
+
+
+
+
+IEEE CS × IEEE CIS HACKATHON
+
+TWO-REVIEW RULEBOOK
+
+Amrita Vishwa Vidyapeetham, Chennai  •  14 October 2026  •  8:30 AM–4:30 PM
+
+1. AT A GLANCE
+
+Format: Offline, one-day hackathon.
+
+Team size: 2–4 members.
+
+Expected participation: Minimum 25 teams.
+
+IEEE membership: Not required unless stated in the final registration notice.
+
+Registration: Team formation and registration must be completed before event day.
+
+Problem statements: Released at the opening.
+
+2. BUILD REQUIREMENT
+
+Required: A functional full-stack prototype with a meaningful AI / Computational Intelligence component.
+
+Integration: Frontend + backend + database/API + AI/CI workflow should work together.
+
+Parallel work: AI and full-stack development may happen in parallel.
+
+Resources: Pretrained models, APIs, public datasets, frameworks and model-building resources are allowed.
+
+Scope: A working prototype is sufficient; production-scale engineering is not required.
+
+3. AI / DEVELOPMENT TOOLS
+
+Allowed: ChatGPT, Gemini, Grok, GitHub Copilot, AI coding agents, Lovable, Bolt, Hugging Face, TensorFlow, PyTorch, scikit-learn, XGBoost, model APIs, vector databases, public datasets and equivalent resources.
+
+Advanced / premium models: Allowed unless specifically placed on the Organizing Committee's restricted list.
+
+AI-generated code: Must be understood, reviewed and defensible by the team.
+
+Not allowed: Complete pre-built solutions, previous hackathon projects submitted as new work, plagiarism, stolen credentials/data or deliberate copying.
+
+4. TEAM & RESOURCE RULES
+
+Templates / libraries / frameworks: Allowed.
+
+Existing code: General-purpose components are allowed; a complete pre-developed solution for the chosen problem is not.
+
+Licensing: Teams are responsible for permitted use of third-party code, datasets, APIs, models and assets.
+
+Day scholars: If leaving at or before 3:30 PM, at least one hostel/residential student from the team must remain through final evaluation and represent the team.
+
+Breaks: Teams may continue working during tea/lunch breaks if permitted by the venue/Organizing Committee.
+
+5. SUBMISSION
+
+Required: GitHub repository with source code and a clear README.
+
+Deployment: Working deployment link where available; localhost/demo setup is acceptable when deployment is impractical.
+
+Deadline: Submit before the final review begins.
+
+Evaluation readiness: All members should be able to explain the architecture, AI/CI component, integration and key implementation choices.
+
+6. EVALUATION
+
+No elimination: All teams proceed to the final review.
+
+Midpoint Review — 30
+
+Criterion
+
+Marks
+
+Problem Understanding
+
+5
+
+Solution Architecture
+
+5
+
+AI / Computational Intelligence Approach
+
+10
+
+Prototype / Development Progress
+
+5
+
+Innovation & Feasibility
+
+5
+
+Final Review — 60
+
+Criterion
+
+Marks
+
+Problem Understanding & Relevance
+
+8
+
+AI / Computational Intelligence Component
+
+12
+
+Full-Stack Implementation
+
+14
+
+AI Model–Application Integration
+
+4
+
+Innovation & Creativity
+
+7
+
+Functionality & User Experience
+
+5
+
+Demo & Presentation
+
+10
+
+7. SCHEDULE
+
+Time
+
+Activity
+
+8:30–8:45
+
+Opening Ceremony & Welcome
+
+8:45–9:00
+
+Briefing, Rules, Evaluation & Problem-Statement Instructions
+
+9:00–9:30
+
+Round 1 — Technical Quiz (10)
+
+9:30–10:30
+
+Development / Problem Analysis / AI + Full-Stack Work
+
+10:30–10:45
+
+Tea Break
+
+10:45–12:00
+
+Round 2 — Midpoint Review (30)
+
+12:00–12:30
+
+Lunch Break
+
+12:30–3:30
+
+Final Development, Integration & Testing
+
+3:30–4:20
+
+Round 3 — Final Demo & Evaluation (60)
+
+4:20–4:30
+
+Closing & Submission Confirmation
+
+8. RESULTS
+
+Hackathon day: Winners are not announced on 14 October.
+
+Final results: Scores are consolidated and verified after the event.
+
+Top 3: Formally announced on 15 October 2026 during the conclusion of IEEE Day.
+
+BUILD • INTEGRATE • DEMONSTRATE
+

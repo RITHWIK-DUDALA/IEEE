@@ -1,46 +1,33 @@
 export type TeamMember = {
   name: string;
   role: string;
-  photo: string;
-  instagram?: string;
   isFacultyAdvisor?: boolean;
 };
 
 export const teamData: TeamMember[] = [
   {
-    name: "Dr. Jane Smith",
-    role: "Faculty Advisor",
-    photo: "/placeholder.svg",
+    name: "Dr. Sountharrajan S.",
+    role: "Mentor",
     isFacultyAdvisor: true,
   },
   {
-    name: "Alex Johnson",
+    name: "Bhaanu Teja Reddy",
     role: "Chair",
-    photo: "/placeholder.svg",
-    instagram: "alexj_tech",
   },
   {
-    name: "Maria Garcia",
+    name: "D. Rithwik Satya Sai Ganesh",
     role: "Vice Chair",
-    photo: "/placeholder.svg",
-    instagram: "maria.codes",
   },
   {
-    name: "David Lee",
-    role: "Technical Lead",
-    photo: "/placeholder.svg",
-    instagram: "david_dev",
+    name: "Mounish",
+    role: "Secretary",
   },
   {
-    name: "Sarah Chen",
-    role: "Events Coordinator",
-    photo: "/placeholder.svg",
-    instagram: "sarah_events",
+    name: "Shagini Selvakumar",
+    role: "Web Master",
   },
   {
-    name: "James Wilson",
-    role: "Marketing Director",
-    photo: "/placeholder.svg",
-    instagram: "james_design",
+    name: "Nivideta",
+    role: "Treasurer",
   },
 ];

@@ -1,145 +1,208 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { ArrowLeft, Calendar, Clock, MapPin, Image as ImageIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, Calendar, MapPin, Clock } from "lucide-react";
+import CrystalizedBall from "./CrystalizedBall";
 import { eventsData } from "@/data/events";
+import EventChatbot from "@/components/EventChatbot";
+import { safeRulebookText } from "@/data/rulebook";
+import TechText from "@/components/TechText";
 
-export function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  // Use React.use() here conceptually, but metadata is async in Next 15
-  return {
-    title: `Event Details | Organization`,
-  };
-}
+const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-export function generateStaticParams() {
-  return eventsData.map((event) => ({
-    slug: event.slug,
-  }));
-}
+  useEffect(() => {
+    const target = new Date(targetDate).getTime();
 
-export default async function EventDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = await params;
-  const event = eventsData.find((e) => e.slug === resolvedParams.slug);
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const difference = target - now;
 
-  if (!event) {
-    notFound();
-  }
+      if (difference <= 0) {
+        clearInterval(interval);
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      } else {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000),
+        });
+      }
+    }, 1000);
 
-  const isUpcoming = event.status === "upcoming";
+    return () => clearInterval(interval);
+  }, [targetDate]);
 
   return (
-    <article className="pb-24">
-      {/* Event Header */}
-      <div className="bg-[var(--color-navy)] text-white pt-12 pb-24 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-navy)] to-[var(--color-brand-primary)] opacity-50 pointer-events-none" />
-        <div className="container mx-auto relative z-10">
-          <Link href="/events" className="inline-flex items-center text-sm font-medium text-white/70 hover:text-white mb-8 transition-colors">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Events
+    <div className="flex gap-2 sm:gap-4 mt-8 mb-4 p-4 sm:p-6 bg-white/[0.02] border border-[#00E5FF]/20 rounded-2xl w-full sm:w-fit max-w-full items-center justify-between sm:justify-start">
+      <div className="flex flex-col items-center min-w-[45px] sm:min-w-[60px]">
+        <div className="text-2xl sm:text-3xl font-bold text-[#00E5FF]">{timeLeft.days}</div>
+        <div className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-widest mt-1">Days</div>
+      </div>
+      <div className="text-xl sm:text-2xl text-[#00E5FF]/40 font-light mb-4 sm:mb-4">:</div>
+      <div className="flex flex-col items-center min-w-[45px] sm:min-w-[60px]">
+        <div className="text-2xl sm:text-3xl font-bold text-[#00E5FF]">{timeLeft.hours}</div>
+        <div className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-widest mt-1">Hours</div>
+      </div>
+      <div className="text-xl sm:text-2xl text-[#00E5FF]/40 font-light mb-4 sm:mb-4">:</div>
+      <div className="flex flex-col items-center min-w-[45px] sm:min-w-[60px]">
+        <div className="text-2xl sm:text-3xl font-bold text-[#00E5FF]">{timeLeft.minutes}</div>
+        <div className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-widest mt-1">Mins</div>
+      </div>
+      <div className="text-xl sm:text-2xl text-[#00E5FF]/40 font-light mb-4 sm:mb-4">:</div>
+      <div className="flex flex-col items-center min-w-[45px] sm:min-w-[60px]">
+        <div className="text-2xl sm:text-3xl font-bold text-[#00E5FF]">{timeLeft.seconds}</div>
+        <div className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-widest mt-1">Secs</div>
+      </div>
+    </div>
+  );
+};
+
+export default function EventDetailedPage() {
+  const params = useParams();
+  const slug = params.slug as string;
+  const event = eventsData.find(e => e.slug === slug);
+
+  if (!event) {
+    return (
+      <div className="min-h-screen flex items-center justify-center pt-24 text-white">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-4">Event Not Found</h1>
+          <Link href="/events" className="text-[#00E5FF] hover:underline">
+            ← Back to Events
           </Link>
-          
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-4 mb-6">
-              <span className={`px-3 py-1 text-xs font-mono font-bold rounded-full ${isUpcoming ? 'bg-[var(--color-signal-teal)]/20 text-[var(--color-signal-teal)]' : 'bg-white/10 text-white/60'}`}>
-                {isUpcoming ? 'UPCOMING' : 'PAST'}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden bg-[#0A0910]">
+      {/* Background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
+
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
+        <Link href="/events" className="inline-flex items-center text-sm font-medium text-[#00E5FF] hover:text-[#80D8FF] transition-colors mb-8">
+          <ArrowLeft className="w-4 h-4 mr-2" /> Back to all events
+        </Link>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          {/* Left Column: Event Details */}
+          <div className="flex flex-col lg:col-span-7 pt-4">
+            <div className="flex flex-wrap items-center gap-4 mb-6">
+              <span className="flex items-center text-[#00E5FF] text-sm font-semibold tracking-wider uppercase">
+                <Calendar className="w-4 h-4 mr-2" /> {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+              </span>
+              <span className="flex items-center text-gray-400 text-sm">
+                <Clock className="w-4 h-4 mr-1.5" /> 9:00 AM - 4:00 PM
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight mb-6">
-              {event.title}
-            </h1>
-            <p className="text-xl text-white/80 leading-relaxed">
-              {event.summary}
-            </p>
-          </div>
-        </div>
-      </div>
 
-      <div className="container mx-auto px-4 -mt-12 relative z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            <div className="aspect-video bg-gray-100 rounded-xl mb-8 flex items-center justify-center border border-[var(--color-border)] overflow-hidden shadow-sm">
-              {/* Cover Image Placeholder */}
-              <ImageIcon className="text-gray-300 w-16 h-16" />
-            </div>
+            {event.slug === 'nexora-hackathon' ? (
+              <div style={{ width: '100%', height: '180px', position: 'relative', marginTop: '-20px', marginBottom: '20px' }}>
+                <TechText
+                  text="NEXORA"
+                  fontWeight={800}
+                  fontSize={100}
+                  reveal="letter"
+                  dashLength={4}
+                  dashGap={2}
+                  specks={15}
+                  fontFamily=""
+                  color="#ffffff"
+                  accentColor="#00E5FF"
+                  letterSpacing={-0.05}
+                  reach={200}
+                  softness={0.7}
+                  strokeWidth={1.5}
+                  speed={1}
+                  lineStyle="dashed"
+                  selection
+                  labels
+                  draggable
+                  sweep
+                  style={{}}
+                />
+              </div>
+            ) : (
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 tracking-tight">
+                {event.title}
+              </h1>
+            )}
 
-            <div className="prose prose-lg max-w-none text-[var(--color-ink)]">
-              <h2 className="text-2xl font-bold font-display text-[var(--color-ink)] mb-4">About this event</h2>
-              <p className="mb-8 whitespace-pre-wrap">{event.description}</p>
-            </div>
-
-            {/* Agenda */}
-            {event.agenda && event.agenda.length > 0 && (
-              <div className="mt-12">
-                <h3 className="text-2xl font-bold font-display text-[var(--color-ink)] mb-6">Agenda</h3>
-                <div className="space-y-4">
-                  {event.agenda.map((item, idx) => (
-                    <div key={idx} className="flex gap-4 p-4 rounded-lg bg-[var(--color-bg)] border border-[var(--color-border)]">
-                      <div className="font-mono text-[var(--color-brand-primary)] font-semibold shrink-0 w-24">
-                        {item.time}
-                      </div>
-                      <div className="text-[var(--color-ink)]">{item.item}</div>
-                    </div>
-                  ))}
+            {event.slug === 'nexora-hackathon' && (
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-10 w-fit relative z-10">
+                <div className="flex items-center gap-3 relative">
+                  <div className="absolute top-1/2 left-4 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-[#FFB800] opacity-20 blur-xl rounded-full -z-10"></div>
+                  <Image src="/cs.webp" alt="IEEE CS" width={40} height={40} className="w-8 h-auto object-contain relative z-10" />
+                  <span className="text-xs md:text-sm text-gray-300 font-medium leading-tight relative z-10">IEEE Computer<br/>Society</span>
+                </div>
+                <span className="hidden sm:inline-block text-[#555] font-light text-lg">×</span>
+                <div className="flex items-center gap-3 relative">
+                  <div className="absolute top-1/2 left-4 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-[#00AEEF] opacity-20 blur-xl rounded-full -z-10"></div>
+                  <Image src="/ciis%20final.webp" alt="IEEE CIS" width={40} height={40} className="w-8 h-auto object-contain relative z-10" />
+                  <span className="text-xs md:text-sm text-gray-300 font-medium leading-tight relative z-10">IEEE Computational<br/>Intelligence Society</span>
                 </div>
               </div>
             )}
-            
-            {/* Gallery (Past Events) */}
-            {event.gallery && event.gallery.length > 0 && (
-              <div className="mt-12">
-                <h3 className="text-2xl font-bold font-display text-[var(--color-ink)] mb-6">Event Gallery</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {event.gallery.map((img, idx) => (
-                    <div key={idx} className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center">
-                       <ImageIcon className="text-gray-400 w-8 h-8" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+
+            <div className="prose prose-invert prose-p:text-[#8E9CB0] prose-p:leading-relaxed prose-p:text-lg mb-10">
+              <p className="whitespace-pre-wrap">{event.description || event.summary}</p>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              <a 
+                href={event.registrationUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="px-8 py-4 rounded-full bg-[#00E5FF] text-[#171020] font-semibold hover:bg-[#80D8FF] transition-colors shadow-[0_0_20px_rgba(0,229,255,0.3)] inline-block text-center"
+              >
+                Register Now
+              </a>
+            </div>
+
+            <CountdownTimer targetDate={event.slug === 'nexora-hackathon' ? '2026-10-14T09:00:00' : '2026-10-15T09:00:00'} />
           </div>
 
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl border border-[var(--color-border)] shadow-sm p-6 sticky top-24">
-              <h3 className="text-xl font-bold font-display text-[var(--color-ink)] mb-6">Event Details</h3>
-              
-              <ul className="space-y-4 mb-8">
-                <li className="flex gap-3 text-[var(--color-ink-muted)]">
-                  <Calendar className="w-5 h-5 shrink-0 text-[var(--color-brand-primary)]" />
-                  <div>
-                    <div className="font-semibold text-[var(--color-ink)]">Date</div>
-                    <div>{new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                  </div>
-                </li>
-                <li className="flex gap-3 text-[var(--color-ink-muted)]">
-                  <Clock className="w-5 h-5 shrink-0 text-[var(--color-brand-primary)]" />
-                  <div>
-                    <div className="font-semibold text-[var(--color-ink)]">Time</div>
-                    <div>{new Date(event.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
-                  </div>
-                </li>
-                <li className="flex gap-3 text-[var(--color-ink-muted)]">
-                  <MapPin className="w-5 h-5 shrink-0 text-[var(--color-brand-primary)]" />
-                  <div>
-                    <div className="font-semibold text-[var(--color-ink)]">Location</div>
-                    <div>TBD</div>
-                  </div>
-                </li>
-              </ul>
-
-              {isUpcoming && (
-                <Button size="lg" className="w-full" asChild>
-                  <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer">
-                    Register Now
-                  </a>
-                </Button>
-              )}
+          {/* Right Column: Crystalized Ball Component & Chatbot */}
+          <div className="relative flex flex-col items-center lg:col-span-5 lg:sticky lg:top-24 h-[calc(100vh-8rem)]">
+            <div className="w-full max-w-[400px] h-[250px] lg:h-[350px] relative shrink-0 animate-continuous-hue">
+              <CrystalizedBall
+                preset="plasma"
+                color="#6366F1"
+                size={0.7}
+                crackle={0.85}
+                fill={0.5}
+                interactive
+                hoverStrength={0.7}
+                strands={6}
+                flares={0.65}
+                glow={0.9}
+                sparks={0.6}
+                particleCount={15000}
+                motion="rise"
+                particleShape="square"
+                depth={0.6}
+                sway={0.5}
+                twinkle={0.5}
+                haze={0.7}
+                dustSpeed={1}
+                speed={1}
+                intro
+                paused={false}
+              />
+            </div>
+            {/* Interactive Chatbot */}
+            <div className="w-full">
+              <EventChatbot rulebookText={safeRulebookText} />
             </div>
           </div>
         </div>
       </div>
-    </article>
+    </div>
   );
 }

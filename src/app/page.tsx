@@ -6,14 +6,13 @@ import { CircuitTrace } from "@/components/layout/circuit-trace";
 import PixelBlast from "@/components/PixelBlast";
 import { eventsData } from "@/data/events";
 import { teamData } from "@/data/team";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
-  const upcomingEvents = eventsData.filter(e => e.status === "upcoming").slice(0, 3);
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen page-enter">
       {/* 1. Hero */}
-      <section className="relative w-full h-screen flex flex-col items-center justify-center bg-[#0B0912] overflow-hidden">
+      <section className="relative w-full min-h-screen pt-[120px] pb-16 lg:pt-0 lg:pb-0 lg:h-screen flex flex-col items-center justify-center bg-[#0B0912] overflow-hidden">
         {/* PixelBlast Background with Center Mask */}
         <div className="absolute inset-0 z-0 pointer-events-none" style={{ maskImage: 'radial-gradient(ellipse at center, transparent 20%, black 60%)', WebkitMaskImage: 'radial-gradient(ellipse at center, transparent 20%, black 60%)' }}>
           <PixelBlast
@@ -37,42 +36,39 @@ export default function Home() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-[1200px] mt-[72px]">
+        <div className="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-[1200px] mt-4 lg:mt-[72px]">
           {/* Overline */}
-          <div className="flex items-center gap-4 mb-8">
+          <div className="flex items-center justify-center gap-4 mb-6 lg:mb-8 w-full max-w-md py-4" style={{ background: 'radial-gradient(ellipse at center, rgba(11,9,18,0.95) 10%, rgba(11,9,18,0) 70%)' }}>
             <div className="h-[1px] w-8 md:w-16 bg-[#B9B3CC]/30"></div>
-            <span className="text-[#B9B3CC] text-[10px] md:text-[11px] tracking-[3px] uppercase">ORGANIZATION • LOCATION</span>
+            <span className="text-[#B9B3CC] text-[10px] md:text-[11px] tracking-[3px] uppercase whitespace-nowrap">IEEE Computer Society • Amrita</span>
             <div className="h-[1px] w-8 md:w-16 bg-[#B9B3CC]/30"></div>
           </div>
           
           {/* Headline */}
-          <h1 className="text-5xl md:text-7xl lg:text-[84px] font-bold text-[#F8F7FC] leading-[1.05] tracking-tight mb-8">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[84px] font-bold text-[#F8F7FC] leading-[1.05] tracking-tight mb-5 md:mb-8">
             Advancing Computing <br />
             for a <span className="text-[#B96CFF]">Better Tomorrow.</span>
           </h1>
           
           {/* Sub-label */}
-          <div className="text-[#B9B3CC] text-[11px] md:text-[13px] tracking-[4px] font-medium mb-8 uppercase">
+          <div className="text-[#B9B3CC] text-[10px] md:text-[13px] tracking-[3px] md:tracking-[4px] font-medium mb-5 md:mb-8 uppercase">
             LEARN · COLLABORATE · INNOVATE · MAKE AN IMPACT
           </div>
           
           {/* Description */}
-          <p className="text-[#B9B3CC] text-lg md:text-xl max-w-[700px] leading-relaxed mb-12">
+          <p className="text-[#B9B3CC] text-base md:text-xl max-w-[700px] leading-relaxed mb-8 md:mb-12">
             A vibrant community of students, researchers and professionals building technology, creating opportunities, and shaping a better future.
           </p>
           
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 mb-16">
-            <Link href="/join" className="group flex items-center justify-center h-[56px] px-8 rounded-full bg-[#B96CFF] text-[#F8F7FC] font-medium text-base transition-all hover:bg-[#C88AFF]" style={{ boxShadow: "0 0 20px rgba(185, 108, 255, 0.4)" }}>
-              Explore Our Community <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link href="/events" className="flex items-center justify-center h-[56px] px-8 rounded-full border border-white/20 text-[#F8F7FC] font-medium text-base transition-all hover:bg-white/5 hover:border-white/40">
-              <Calendar className="w-4 h-4 mr-2" /> Discover Events
+          <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 mb-10 md:mb-16 w-full sm:w-auto">
+            <Link href="/events" className="group flex items-center justify-center h-[52px] md:h-[56px] w-full sm:w-auto px-8 rounded-full bg-[#B96CFF] text-[#F8F7FC] font-medium text-base transition-all hover:bg-[#C88AFF]" style={{ boxShadow: "0 0 20px rgba(185, 108, 255, 0.4)" }}>
+              <Calendar className="w-4 h-4 mr-2" /> Discover Events <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
           
           {/* Feature Row */}
-          <div className="flex flex-wrap justify-center gap-6 md:gap-12 text-left">
+          <div className="hidden md:flex flex-wrap justify-center gap-6 md:gap-12 text-left">
             <div className="flex items-center gap-4">
               <Users className="w-6 h-6 text-[#B9B3CC]" />
               <div className="text-[#B9B3CC] text-sm leading-tight">Student-led<br/>Community</div>
@@ -92,16 +88,11 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#B9B3CC] opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
-          <Mouse className="w-5 h-5 mb-1" />
-          <span className="text-[9px] tracking-[2px] uppercase">Scroll to Explore</span>
-          <ChevronDown className="w-4 h-4 animate-bounce" />
-        </div>
+
       </section>
 
       {/* 2. About / Mission */}
-      <section id="about" className="relative w-full min-h-screen py-24 lg:py-32 bg-[#0B0912] overflow-hidden flex flex-col justify-center text-white border-t border-white/5">
+      <section id="about" className="relative w-full py-12 md:py-16 bg-[#0B0912] overflow-hidden flex flex-col text-white border-t border-white/5">
         
         {/* Background Glowing Orbs */}
         <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-[#00A3FF] opacity-[0.15] blur-[120px] rounded-full pointer-events-none"></div>
@@ -111,10 +102,7 @@ export default function Home() {
         {/* Dotted Grid Background */}
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}></div>
 
-        {/* Floating Corner Labels */}
-        <div className="absolute bottom-10 left-10 text-[#5C667B] text-[9px] tracking-[3px] uppercase font-mono leading-relaxed pointer-events-none z-10">
-          AMRITA<br />VISHWA VIDYAPEETHAM<br />CHENNAI
-        </div>
+
         
         <div className="absolute bottom-10 right-10 flex flex-col items-end pointer-events-none z-10">
           <div className="text-[#5C667B] text-xs font-mono mb-2"><span className="text-white">02</span> / 05</div>
@@ -124,8 +112,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Floating Script Text */}
-        <div className="absolute right-[5%] top-[45%] -rotate-[15deg] pointer-events-none opacity-50 z-20">
+        {/* Floating Script Text - hidden on mobile */}
+        <div className="hidden md:block absolute right-[5%] top-[45%] -rotate-[15deg] pointer-events-none opacity-50 z-20">
           <span className="font-serif italic text-3xl text-[#B9B3CC]" style={{ fontFamily: 'Georgia, serif' }}>Technology<br/>for a better<br/>tomorrow</span>
         </div>
 
@@ -137,6 +125,7 @@ export default function Home() {
             {/* Left Column: Copy & CTA */}
             <div className="flex-1 w-full max-w-[600px] pt-12">
               
+              <ScrollReveal>
               {/* Overline */}
               <div className="flex items-center gap-4 mb-8">
                 <span className="text-[#FF6B4A] text-xs font-mono">02</span>
@@ -145,7 +134,7 @@ export default function Home() {
               </div>
               
               {/* Headline */}
-              <h2 className="text-5xl md:text-6xl lg:text-[72px] font-bold text-white leading-[1.05] tracking-tight mb-6">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-bold text-white leading-[1.05] tracking-tight mb-5 md:mb-6">
                 A Community <br/>
                 that Builds <br/>
                 <span className="text-[#00A3FF]">What's</span> <span className="text-[#FF6B4A]">Next.</span>
@@ -155,13 +144,14 @@ export default function Home() {
               <p className="text-[#8E9CB0] text-lg max-w-[480px] leading-relaxed mb-10">
                 Our organization empowers students to learn, collaborate and build technology for a better tomorrow.
               </p>
+              </ScrollReveal>
               
               {/* CTA Row */}
-              <div className="flex flex-col sm:flex-row items-center gap-6 mb-16">
-                <Link href="/about" className="group flex items-center justify-center h-[56px] px-8 rounded-full bg-[#FF6B4A] text-[#0B0912] font-semibold text-sm transition-all hover:bg-[#FF8367]">
+              <div className="flex flex-col sm:flex-row items-center gap-4 mb-10 md:mb-16 w-full sm:w-auto">
+                <Link href="/about" className="group flex items-center justify-center h-[52px] md:h-[56px] w-full sm:w-auto px-8 rounded-full bg-[#FF6B4A] text-[#0B0912] font-semibold text-sm transition-all hover:bg-[#FF8367]">
                   Explore Our Story <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                 </Link>
-                <Link href="#video" className="group flex items-center justify-center h-[56px] px-8 rounded-full border border-white/20 text-white font-medium text-sm transition-all hover:bg-white/5">
+                <Link href="#video" className="group flex items-center justify-center h-[52px] md:h-[56px] w-full sm:w-auto px-8 rounded-full border border-white/20 text-white font-medium text-sm transition-all hover:bg-white/5">
                   <span className="flex items-center justify-center w-6 h-6 rounded-full border border-[#FF6B4A] text-[#FF6B4A] mr-3 group-hover:bg-[#FF6B4A] group-hover:text-[#0B0912] transition-colors">
                     <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
                   </span>
@@ -191,8 +181,8 @@ export default function Home() {
               
             </div>
 
-            {/* Right Column: 3D Image Composition */}
-            <div className="flex-1 w-full relative h-[500px] lg:h-[600px] flex items-center justify-center mt-12 lg:mt-0" style={{ perspective: '1200px' }}>
+            {/* Right Column: 3D Image Composition - hidden on mobile */}
+            <div className="hidden lg:flex flex-1 w-full relative h-[500px] lg:h-[600px] items-center justify-center mt-12 lg:mt-0" style={{ perspective: '1200px' }}>
               
               {/* Floating Text Left */}
               <div className="hidden lg:flex absolute -left-10 top-[20%] flex-col gap-3 text-[#5C667B] text-[9px] tracking-[4px] font-mono z-20">
@@ -232,10 +222,10 @@ export default function Home() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center opacity-90 drop-shadow-2xl">
                    <div className="text-[#FFB3A0] font-light tracking-[10px] text-lg md:text-xl mb-4">AMRITA</div>
                    <div className="flex items-center gap-3">
-                     <span className="text-white text-2xl md:text-3xl font-serif border-[1.5px] border-white rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">Φ</span>
+                     <img src="/cs.webp" alt="IEEE CS Logo" className="w-10 h-10 md:w-12 md:h-12 rounded-sm" />
                      <div className="flex flex-col">
-                       <span className="text-[10px] md:text-xs leading-none text-white/80">Logo</span>
-                       <span className="text-base md:text-lg leading-none font-medium text-white">organization</span>
+                       <span className="text-[10px] md:text-xs leading-none text-white/80">IEEE</span>
+                       <span className="text-base md:text-lg leading-none font-medium text-white">Computer Society</span>
                      </div>
                    </div>
                 </div>
@@ -244,14 +234,14 @@ export default function Home() {
               {/* Front Layer (Blurred accent pane) */}
               <div 
                 className="absolute w-[180px] md:w-[200px] h-[250px] md:h-[300px] bg-gradient-to-b from-white/10 to-transparent backdrop-blur-md border border-white/20 rounded-xl z-20 transition-transform duration-1000 ease-out hidden sm:block"
-                style={{ transform: 'rotateY(-5deg) translateZ(150px) translateX(-200px) translateY(80px)' }}
+                style={{ transform: 'rotateY(-5deg) translateZ(150px) translateX(-60px) translateY(60px)' }}
               ></div>
 
             </div>
           </div>
 
           {/* Bottom Features Bar */}
-          <div className="mt-20 w-full max-w-[1200px] mx-auto bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[30px] p-6 lg:p-8 flex flex-col md:flex-row justify-between items-center gap-8 relative z-20 shadow-2xl">
+          <div className="hidden md:flex mt-20 w-full max-w-[1200px] mx-auto bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[30px] p-6 lg:p-8 flex-col md:flex-row justify-between items-center gap-8 relative z-20 shadow-2xl">
             
             <div className="flex items-center justify-center md:justify-start gap-5 flex-1 w-full">
               <div className="w-12 h-12 rounded-full border border-[#FF6B4A]/30 flex items-center justify-center text-[#FF6B4A] bg-[#FF6B4A]/10">
@@ -296,186 +286,69 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. Events Preview */}
-      <section className="py-24 md:py-32 bg-[var(--color-surface)] border-t border-[var(--color-border)]">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-12">
-            <div>
-              <h2 className="text-3xl font-bold font-display text-[var(--color-ink)]">Upcoming Events</h2>
-              <p className="text-[var(--color-ink-muted)] mt-2">Join us at our next gathering.</p>
-            </div>
-            <Button variant="outline" asChild className="hidden md:inline-flex">
-              <Link href="/events">View all events <ArrowRight className="ml-2 w-4 h-4" /></Link>
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {upcomingEvents.map((event) => (
-              <Card key={event.slug} className="flex flex-col h-full overflow-hidden hover:border-[var(--color-brand-primary)] transition-colors">
-                <div className="aspect-video bg-gray-100 relative flex items-center justify-center border-b border-[var(--color-border)]">
-                  <ImageIcon className="text-gray-300 w-10 h-10" />
-                </div>
-                <CardHeader>
-                  <div className="text-xs font-mono font-semibold text-[var(--color-signal-teal)] mb-2">
-                    {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </div>
-                  <CardTitle className="text-xl line-clamp-2">{event.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-1">
-                  <p className="text-[var(--color-ink-muted)] line-clamp-3">{event.summary}</p>
-                </CardContent>
-                <CardFooter>
-                  <Button variant="secondary" className="w-full" asChild>
-                    <Link href={`/events/${event.slug}`}>Event Details</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-          
-          <div className="mt-8 md:hidden">
-             <Button variant="outline" className="w-full" asChild>
-                <Link href="/events">View all events <ArrowRight className="ml-2 w-4 h-4" /></Link>
-             </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. News Preview */}
-      <section className="py-24 md:py-32 bg-[var(--color-bg)]">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-12">
-            <h2 className="text-3xl font-bold font-display text-[var(--color-ink)]">Latest News</h2>
-            <Button variant="outline" asChild className="hidden md:inline-flex">
-              <Link href="/news">View all news <ArrowRight className="ml-2 w-4 h-4" /></Link>
-            </Button>
-          </div>
-
-          {/* Placeholder for Firebase Posts */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="group cursor-pointer">
-                <div className="aspect-[3/2] bg-gray-200 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-                   <ImageIcon className="text-gray-400 w-8 h-8" />
-                </div>
-                <div className="text-xs font-mono text-[var(--color-ink-muted)] mb-2">PUBLISHED ON DATA</div>
-                <h3 className="text-xl font-semibold font-display mb-2 group-hover:text-[var(--color-brand-primary)] transition-colors">
-                  News Post Title Placeholder {i}
-                </h3>
-                <p className="text-[var(--color-ink-muted)] line-clamp-2">
-                  This is a placeholder excerpt for the news post. The real data will be fetched from Firestore in a later step.
-                </p>
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-8 md:hidden">
-             <Button variant="outline" className="w-full" asChild>
-                <Link href="/news">View all news <ArrowRight className="ml-2 w-4 h-4" /></Link>
-             </Button>
-          </div>
-        </div>
-      </section>
 
       {/* 5. Team Preview */}
-      <section className="py-24 md:py-32 bg-[var(--color-navy)] text-white relative overflow-hidden">
-        <CircuitTrace className="top-1/2 -translate-y-1/2 opacity-20 text-[var(--color-brand-primary)]" />
+      <section className="py-24 md:py-32 bg-[#0B0912] border-t border-white/5 text-white relative overflow-hidden">
+        <div className="absolute -left-20 top-40 w-[300px] h-[300px] bg-[#10B981] opacity-[0.05] blur-[100px] rounded-full pointer-events-none"></div>
+        <CircuitTrace className="top-1/2 -translate-y-1/2 opacity-20 text-[#00A3FF]" />
         <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
+          <ScrollReveal className="text-center mb-16">
             <h2 className="text-3xl font-bold font-display mb-4">Meet the Team</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               The dedicated individuals working behind the scenes to bring you the best experience.
             </p>
-          </div>
+          </ScrollReveal>
 
-          <div className="flex flex-col items-center">
-            {/* Faculty Advisor */}
-            {teamData.filter(m => m.isFacultyAdvisor).map(member => (
-              <div key={member.name} className="text-center mb-12 lg:mb-16">
-                <div className="aspect-square bg-white/10 rounded-xl mb-4 flex items-center justify-center mx-auto w-32 h-32 md:w-40 md:h-40">
-                   <ImageIcon className="text-white/20 w-8 h-8" />
-                </div>
-                <h3 className="font-semibold text-lg">{member.name}</h3>
-                <p className="text-sm text-[var(--color-signal-teal)] font-mono mt-1">{member.role}</p>
-              </div>
-            ))}
-
-            {/* Core Team (Centered) */}
-            <div className="flex flex-wrap justify-center gap-6 md:gap-10 max-w-5xl mx-auto">
-              {teamData.filter(m => !m.isFacultyAdvisor).map((member) => (
-                <div key={member.name} className="text-center w-32 md:w-40">
-                  <div className="aspect-square bg-white/10 rounded-xl mb-4 flex items-center justify-center w-full">
-                     <ImageIcon className="text-white/20 w-8 h-8" />
+          {/* Terminal Window */}
+          <div className="w-full max-w-4xl mx-auto bg-[#0d0d0d] rounded-xl overflow-hidden border border-[#222] shadow-2xl text-left">
+            {/* Terminal Top Bar */}
+            <div className="flex items-center gap-2 px-4 py-3 bg-[#161616] border-b border-[#222]">
+              <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+              <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+              <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+              <div className="ml-4 text-xs font-mono text-gray-500">~/ieee-cs/team_2026.json</div>
+            </div>
+            
+            {/* Terminal Content */}
+            <div className="p-6 md:p-8 font-mono text-sm md:text-base leading-relaxed overflow-x-auto text-gray-300">
+              <span className="text-[#B96CFF]">const</span> <span className="text-[#FFB3A0]">team2026</span> = [
+              <div className="pl-4 md:pl-8 py-2">
+                {/* Mentor */}
+                {teamData.filter(m => m.isFacultyAdvisor).map(mentor => (
+                  <div key={mentor.name} className="mb-4 group">
+                    <span className="text-[#8E9CB0]">{"{"}</span><br/>
+                    <span className="pl-4 md:pl-8 text-[#79C0FF]">"role"</span>: <span className="text-[#A5D6FF]">"{mentor.role}"</span>,<br/>
+                    <span className="pl-4 md:pl-8 text-[#79C0FF]">"name"</span>: <span className="text-[#7EE787] font-semibold">"{mentor.name}"</span>,<br/>
+                    <span className="pl-4 md:pl-8 text-[#79C0FF]">"isFacultyAdvisor"</span>: <span className="text-[#FF7B72]">true</span><br/>
+                    <span className="text-[#8E9CB0]">{"},"}</span>
                   </div>
-                  <h3 className="font-semibold text-lg">{member.name}</h3>
-                  <p className="text-sm text-[var(--color-signal-teal)] font-mono mt-1">{member.role}</p>
-                </div>
-              ))}
+                ))}
+                
+                {/* Core Team (Preview limited to Chair and Vice Chair for homepage) */}
+                {teamData.filter(m => !m.isFacultyAdvisor).slice(0,2).map((member, i) => (
+                  <div key={member.name} className="mb-4 group">
+                    <span className="text-[#8E9CB0]">{"{"}</span><br/>
+                    <span className="pl-4 md:pl-8 text-[#79C0FF]">"role"</span>: <span className="text-[#A5D6FF]">"{member.role}"</span>,<br/>
+                    <span className="pl-4 md:pl-8 text-[#79C0FF]">"name"</span>: <span className="text-[#7EE787] font-semibold">"{member.name}"</span><br/>
+                    <span className="text-[#8E9CB0]">{"}"}{i !== 1 ? "," : ""}</span>
+                  </div>
+                ))}
+                <div className="text-[#5C667B]">... // see full team</div>
+              </div>
+              <span className="text-[#8E9CB0]">]</span>;
             </div>
           </div>
-          
-          <div className="text-center mt-12">
-            <Button variant="primary" asChild>
-               <Link href="/team">View full team</Link>
-            </Button>
+
+          <div className="text-center mt-10">
+            <Link href="/team" className="inline-flex items-center gap-2 text-sm text-[#8E9CB0] hover:text-white transition-colors font-mono tracking-wider border border-white/10 hover:border-white/30 px-6 py-2.5 rounded-full">
+              View full team <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 6. Gallery Preview */}
-      <section className="py-24 md:py-32 bg-[var(--color-bg)]">
-        <div className="container mx-auto px-4">
-           <div className="flex items-center justify-between mb-12">
-            <h2 className="text-3xl font-bold font-display text-[var(--color-ink)]">Gallery</h2>
-            <Button variant="outline" asChild className="hidden md:inline-flex">
-              <Link href="/gallery">View gallery <ArrowRight className="ml-2 w-4 h-4" /></Link>
-            </Button>
-          </div>
-          
-          <div className="flex gap-4 overflow-x-auto pb-4 snap-x">
-             {[1, 2, 3, 4, 5].map((i) => (
-               <div key={i} className="min-w-[280px] md:min-w-[400px] aspect-[4/3] bg-gray-200 rounded-xl flex-shrink-0 snap-center flex items-center justify-center">
-                  <ImageIcon className="text-gray-400 w-10 h-10" />
-               </div>
-             ))}
-          </div>
-          
-          <div className="mt-8 md:hidden">
-             <Button variant="outline" className="w-full" asChild>
-                <Link href="/gallery">View gallery <ArrowRight className="ml-2 w-4 h-4" /></Link>
-             </Button>
-          </div>
-        </div>
-      </section>
 
-      {/* 7. Sponsors Pitch */}
-      <section className="py-24 md:py-32 bg-white border-t border-[var(--color-border)]">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold font-display text-[var(--color-ink)] mb-6">Supported By</h2>
-          <p className="text-lg text-[var(--color-ink-muted)] max-w-2xl mx-auto mb-12">
-            Our incredible sponsors make it possible for us to host events, hackathons, and workshops for the student community.
-          </p>
-          
-          {/* Logo slots */}
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center opacity-50 grayscale mb-16">
-             {[1, 2, 3, 4].map(i => (
-               <div key={i} className="h-12 md:h-16 w-32 md:w-48 bg-gray-100 rounded-md flex items-center justify-center">
-                  <span className="text-sm font-mono text-gray-400">LOGO {i}</span>
-               </div>
-             ))}
-          </div>
 
-          <Card className="max-w-2xl mx-auto bg-[var(--color-bg)] border-none shadow-none text-center p-8">
-            <h3 className="text-2xl font-bold font-display mb-2">Become a Sponsor</h3>
-            <p className="text-[var(--color-ink-muted)] mb-6">
-              Partner with us to support the next generation of tech leaders. Get your brand in front of hundreds of passionate students.
-            </p>
-            <Button variant="primary" size="lg" asChild>
-              <a href="mailto:placeholder@example.com">Contact Us to Sponsor</a>
-            </Button>
-          </Card>
-        </div>
-      </section>
     </div>
   );
 }

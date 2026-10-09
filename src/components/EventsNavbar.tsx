@@ -1,43 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Menu } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Menu, X } from "lucide-react";
 
 export default function EventsNavbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   return (
+    <>
     <header className="absolute top-0 left-0 right-0 z-50 flex items-center justify-center w-full" style={{ height: "clamp(72px, 6.3vw, 104px)", backgroundColor: "rgba(9, 8, 17, 0.88)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(180, 150, 220, 0.12)" }}>
       <div className="w-full max-w-[1560px] mx-auto px-6 md:px-[60px] xl:px-[40px] h-full flex items-center justify-between relative z-10">
         
-        {/* Left: Logos */}
-        <div className="flex items-center gap-4 relative">
-          <div className="flex items-center gap-4 h-[40px]">
-            {/* Logo Placeholder */}
-            <div className="text-white font-bold text-2xl tracking-tighter flex items-center gap-1">
-              <div className="grid grid-cols-2 gap-[2px] w-5 h-5 rotate-45 mr-1">
-                <div className="bg-white"></div><div className="bg-white"></div>
-                <div className="bg-white"></div><div className="bg-white"></div>
-              </div>
-              Logo
+        {/* Left: Logo */}
+        <div className="flex items-center">
+          <Link href="/" className="flex items-center gap-2 md:gap-3">
+            <Image src="/cs.webp" alt="IEEE CS Logo" width={56} height={56} className="w-auto h-10 md:h-14 object-contain" />
+            <div className="flex flex-col">
+              <span className="text-[9px] md:text-[10px] leading-none text-gray-400 tracking-[2px] uppercase">IEEE</span>
+              <span className="text-[13px] md:text-[14px] leading-tight font-semibold text-white whitespace-nowrap">Computer Society</span>
             </div>
-            
-            {/* Vertical Divider */}
-            <div className="w-[1px] h-full bg-white/20"></div>
-            
-            {/* CS Logo Placeholder */}
-            <div className="flex flex-col justify-center">
-              <div className="text-white font-medium text-sm flex items-center leading-tight">
-                <span className="text-xl mr-2 font-serif border border-white rounded-full w-6 h-6 flex items-center justify-center">Φ</span>
-                <div className="flex flex-col">
-                  <span className="text-[10px] leading-none text-gray-300">Logo</span>
-                  <span className="text-[14px] leading-none">organization</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="hidden md:block absolute -bottom-5 left-0 text-[7px] tracking-[1px] text-[#B3AEC7] uppercase whitespace-nowrap">
-            AMRITA VISHWA VIDYAPEETHAM, CHENNAI
-          </div>
+          </Link>
         </div>
 
         {/* Center: Navigation */}
@@ -59,20 +42,47 @@ export default function EventsNavbar() {
           })}
         </nav>
 
-        {/* Right: CTA */}
-        <div className="hidden lg:flex items-center">
-          <Link href="/join" className="group flex items-center justify-center w-[150px] h-[60px] rounded-[17px] border border-[#A96CF4] bg-transparent text-[15px] font-medium text-white transition-all duration-[220ms] ease-in-out hover:bg-[rgba(178,105,255,0.12)] hover:border-[#D3A4FF]" style={{ boxShadow: "0 0 15px rgba(169, 108, 244, 0.15)" }}>
-            Join Us 
-            <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-[220ms] group-hover:translate-x-1" />
-          </Link>
-        </div>
-
-        {/* Mobile Menu */}
-        <button className="lg:hidden text-white p-2">
-          <Menu className="w-6 h-6" />
+        {/* Mobile Menu Toggle */}
+        <button 
+          className="lg:hidden text-white p-2 z-50 relative"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
 
       </div>
     </header>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[60] bg-[#0B0912]/95 backdrop-blur-md flex flex-col pt-32 px-6 lg:hidden animate-in fade-in duration-200">
+          <button 
+            className="absolute top-6 right-6 text-white p-2 z-[70]"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <X className="w-8 h-8" />
+          </button>
+          <nav className="flex flex-col gap-8 items-center text-center mt-12">
+            {["Home", "About", "Events", "Initiatives", "Resources", "Team"].map((item) => (
+              <Link
+                key={item}
+                href={item === "Home" ? "/" : item === "About" ? "/#about" : `/${item.toLowerCase()}`}
+                className="text-3xl font-medium text-white hover:text-[#C58AFF] transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item}
+              </Link>
+            ))}
+            <Link 
+              href="/events" 
+              className="mt-8 flex items-center justify-center px-10 h-[64px] rounded-[20px] bg-[#A96CF4] text-white text-[18px] font-semibold transition-all hover:bg-[#D3A4FF] hover:text-[#171020]"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Events <ArrowRight className="w-6 h-6 ml-2" />
+            </Link>
+          </nav>
+        </div>
+      )}
+    </>
   );
 }

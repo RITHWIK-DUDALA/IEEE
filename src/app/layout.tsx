@@ -20,6 +20,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 import { ConditionalHeader } from "@/components/layout/ConditionalHeader";
 import { ConditionalFooter } from "@/components/layout/ConditionalFooter";
+import { CookieBanner } from "@/components/ui/cookie-banner";
 
 export const metadata: Metadata = {
   title: "Organization",
@@ -36,12 +37,18 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
-        <ConditionalHeader />
-        <main className="flex-1 relative">
-          {children}
-        </main>
-        <ConditionalFooter />
+      <body className="min-h-full flex flex-col font-sans bg-[#0B0912] text-white relative">
+        {/* Global Background Orb */}
+        <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(185,108,255,0.08)_0%,transparent_70%)] pointer-events-none z-0" />
+        
+        <div className="relative z-10 flex flex-col min-h-screen">
+          <ConditionalHeader />
+          <main className="flex-1 relative">
+            {children}
+          </main>
+          <ConditionalFooter />
+          <CookieBanner />
+        </div>
       </body>
     </html>
   );

@@ -441,6 +441,9 @@ export const LaserFlow: React.FC<Props> = ({
     const ro = new ResizeObserver(scheduleResize);
     ro.observe(mount);
 
+    // Disable IntersectionObserver for now to prevent SPA navigation freezing
+    inViewRef.current = true;
+    /*
     const io = new IntersectionObserver(
       entries => {
         inViewRef.current = entries[0]?.isIntersecting ?? true;
@@ -448,6 +451,7 @@ export const LaserFlow: React.FC<Props> = ({
       { root: null, threshold: 0 }
     );
     io.observe(mount);
+    */
 
     const onVis = () => {
       pausedRef.current = document.hidden;
@@ -563,7 +567,7 @@ export const LaserFlow: React.FC<Props> = ({
       if (resizeRaf) cancelAnimationFrame(resizeRaf);
 
       ro.disconnect();
-      io.disconnect();
+      // io.disconnect();
       document.removeEventListener('visibilitychange', onVis);
       canvas.removeEventListener('pointermove', onMove as any);
       canvas.removeEventListener('pointerdown', onMove as any);

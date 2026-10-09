@@ -1,24 +1,106 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-bg: #F7F9FB;
-  --color-ink: #0B1220;
-  --color-ink-muted: #5B6472;
-  --color-brand-primary: #00629B;
-  --color-navy: #041E42;
-  --color-signal-teal: #00A99D;
-  --color-border: #E2E8F0;
-  --color-surface: #FFFFFF;
+  --color-bg: #0B0912;
+  --color-ink: #FFFFFF;
+  --color-ink-muted: #8E9CB0;
+  --color-brand-primary: #B96CFF;
+  --color-navy: #171020;
+  --color-signal-teal: #A96CF4;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-surface: rgba(255, 255, 255, 0.03);
 
   --font-sans: var(--font-inter);
   --font-display: var(--font-space-grotesk);
   --font-mono: var(--font-ibm-plex-mono);
 }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-ink);
+/* ─── Smooth Scrolling ─────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
 }
+
+body {
+  background-color: #0B0912;
+  color: #FFFFFF;
+}
+
+/* ─── Continuous Hue Rotate ─────────────────────────────────── */
+@keyframes continuous-hue {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.animate-continuous-hue {
+  animation: continuous-hue 10s linear infinite;
+}
+
+/* ─── Hide Scrollbars ─────────────────────────────────── */
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* ─── Page Transition ─────────────────────────────────── */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: page-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ─── Scroll-Reveal Utility ───────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger delays for children */
+.reveal-stagger > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger > *:nth-child(2) { transition-delay: 80ms; }
+.reveal-stagger > *:nth-child(3) { transition-delay: 160ms; }
+.reveal-stagger > *:nth-child(4) { transition-delay: 240ms; }
+.reveal-stagger > *:nth-child(5) { transition-delay: 320ms; }
+.reveal-stagger > *:nth-child(6) { transition-delay: 400ms; }
 
 @keyframes beam-breathe {
   0% { opacity: 0.75; }
@@ -86,6 +168,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .animate-beam-breathe,
   .animate-flare-pulse,
   .animate-scroll-dot,
@@ -94,5 +177,10 @@ body {
   .animate-float-panel-2,
   .animate-float-panel-3 {
     animation: none !important;
+  }
+  .reveal, .reveal-left, .reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
